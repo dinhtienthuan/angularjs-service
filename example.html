@@ -16,8 +16,9 @@
   </div>
 
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="directives.js"></script>
   <script>
-    angular.module("exampleApp", [])
+    angular.module("exampleApp", ["customDirectives"])
       .controller("defaultCtrl", function($scope) {
         $scope.data = {
           cities: ["London", "New York", "Paris"],
@@ -29,6 +30,5 @@
         });
       });
   </script>
-  <script type="text/javascript" src="directives.js"></script>
 </body>
 </html>
