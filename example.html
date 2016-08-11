@@ -27,22 +27,8 @@
         $scope.$watch("data.totalClicks", function(newVal) {
           console.log("Total click count: " + newVal);
         });
-      })
-      .directive("triButton", function() {
-        return {
-          scope: {
-            counter: "=counter"
-          },
-          link: function(scope, element, attrs) {
-            element.on("click", function(event) {
-              console.log("Button click: " + event.target.innerText);
-              scope.$apply(function() {
-                scope.counter++;
-              });
-            });
-          }
-        };
       });
   </script>
+  <script type="text/javascript" src="directives.js"></script>
 </body>
 </html>
