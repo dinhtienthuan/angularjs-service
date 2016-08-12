@@ -1,9 +1,9 @@
 angular.module("customServices", [])
   .service("logService", function() {
+    var messageCount = 0;
     return {
-      messageCount: 0,
       log: function(msg) {
-        console.log("Debug: " + (this.messageCount++) + " " + msg);
+        console.log("Debug: " + (messageCount++) + " " + msg);
       }
     };
   });
