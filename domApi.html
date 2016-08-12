@@ -5,16 +5,21 @@
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
 </head>
-<body class="well" ng-controller="defaultCtrl">
-  <button class="btn btn-primary">Click Me</button>
+<body ng-controller="defaultCtrl">
+  <div class="panel panel-default">
+    <h4 class="panel-heading">Time</h4>
+    <div class="panel-body">
+      The time is: {{time}}
+    </div>
+  </div>
 
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script>
     angular.module("exampleApp", [])
-      .controller("defaultCtrl", function($scope, $window, $document) {
-        $document.find("button").on("click", function(event) {
-          $window.alert(event.target.innerText);
-        });
+      .controller("defaultCtrl", function($scope, $interval) {
+        $interval(function() {
+          $scope.time = new Date().toTimeString();
+        }, 2000);
       });
   </script>
 </body>
