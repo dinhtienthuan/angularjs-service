@@ -28,6 +28,9 @@
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script>
     angular.module("exampleApp", [])
+      .config(function($anchorScrollProvider) {
+        $anchorScrollProvider.disableAutoScrolling();
+      })
       .controller("defaultCtrl", function($scope, $location, $anchorScroll) {
         $scope.itemCount = 50;
         $scope.items = [];
@@ -38,7 +41,10 @@
 
         $scope.show = function(id) {
           $location.hash(id);
-        }
+          if (id == "bottom") {
+            $anchorScroll();
+          }
+        };
       });
   </script>
 </body>
