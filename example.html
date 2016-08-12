@@ -20,6 +20,9 @@
   <script type="text/javascript" src="services.js"></script>
   <script>
     angular.module("exampleApp", ["customDirectives", "customServices"])
+      .config(function($logProvider) {
+        $logProvider.debugEnabled(true);
+      })
       .controller("defaultCtrl", function($scope, logService) {
         $scope.data = {
           cities: ["London", "New York", "Paris"],

@@ -3,7 +3,7 @@ angular.module("customServices", [])
     var messageCount = 0;
     return {
       log: function(msg) {
-        $log.log("(LOG + " + messageCount++ + ") " + msg);
+        $log.debug("(LOG + " + messageCount++ + ") " + msg);
       }
     };
   });
