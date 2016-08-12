@@ -24,10 +24,12 @@
   <script>
     angular.module("exampleApp", [])
       .config(function($locationProvider) {
-        $locationProvider.html5Mode({
-          enabled: true,
-          requireBase: false
-        });
+        if (window.history && history.pushState) {
+          $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+          });
+        }
       })
       .controller("defaultCtrl", function($scope, $location) {
         $scope.$on("$locationChangeSuccess", function(event, newUrl) {
