@@ -23,6 +23,12 @@
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script>
     angular.module("exampleApp", [])
+      .config(function($locationProvider) {
+        $locationProvider.html5Mode({
+          enabled: true,
+          requireBase: false
+        });
+      })
       .controller("defaultCtrl", function($scope, $location) {
         $scope.$on("$locationChangeSuccess", function(event, newUrl) {
           $scope.url = newUrl;
