@@ -28,37 +28,40 @@
         </tbody>
       </table>
       <p><button class="btn btn-primary" ng-click="loadData()">Load Data</button></p>
+      <p><button class="btn btn-primary" ng-click="sendData()">Send Data</button></p>
     </div>
   </div>
 
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script>
     angular.module("exampleApp", [])
       .controller("defaultCtrl", function($scope, $http) {
         $scope.loadData = function() {
-          var config = {
-            transformResponse: function(data, headers) {
-              if (headers("content-type") == "application/xml" || headers("content-type") == "application/xml; charset=utf-8" && angular.isString(data)) {
-                products = [];
-                var productElems = angular.element(data.trim()).find("product");
-                for (var i = 0; i < productElems.length; i++) {
-                  var product = productElems.eq(i);
-                  products.push({
-                    name: product.attr("name"),
-                    category: product.attr("category"),
-                    price: product.attr("price")
-                  });
-                }
-                return products;
-              } else {
-                return data;
-              }
-            }
-          };
-
-          $http.get("productData.xml", config).success(function(data) {
+          $http.get("productData.json").success(function(data) {
             $scope.products = data;
           });
+
+          $scope.sendData = function() {
+            var config = {
+              headers: {
+                "content-type": "application/xml"
+              },
+              transformRequest: function(data, headers) {
+                var rootElem = angular.element("<xml>");
+                for (var i = 0; i < data.length; i++) {
+                  var prodElem = angular.element("<product>");
+                  prodElem.attr("name", data[i].name);
+                  prodElem.attr("category", data[i].category);
+                  prodElem.attr("price", data[i].price);
+                  rootElem.append(prodElem);
+                }
+                rootElem.children().wrapAll("<products>");
+                return rootElem.html();
+              }
+            };
+            $http.post("ajax.html", $scope.products, config);
+          };
         };
       });
   </script>
