@@ -21,9 +21,9 @@
             <td class="text-center" colspan="3">No Data</td>
           </tr>
           <tr ng-repeat="item in products">
-            <td>{{name}}</td>
-            <td>{{category}}</td>
-            <td>{{price | currency}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.price | currency}}</td>
           </tr>
         </tbody>
       </table>
@@ -34,9 +34,11 @@
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script>
     angular.module("exampleApp", [])
-      .controller("defaultCtrl", function($scope) {
+      .controller("defaultCtrl", function($scope, $http) {
         $scope.loadData = function() {
-          
+          $http.get("productData.json").success(function(data) {
+            $scope.products = data;
+          });
         };
       });
   </script>
