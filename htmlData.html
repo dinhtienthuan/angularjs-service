@@ -8,12 +8,13 @@
 <body ng-controller="defaultCtrl">
   <div class="well">
     <p><input type="text" class="form-control" ng-model="htmlData"> </p>
-    <p>{{htmlData}}</p>
+    <p ng-bind-html="htmlData"></p>
   </div>
 
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script>
-    angular.module("exampleApp", [])
+    angular.module("exampleApp", ["ngSanitize"])
       .controller("defaultCtrl", function($scope) {
         $scope.htmlData = "<p>This is <b onmouseover=alert('Attack!')>dangerous</b> data</p>";
       });
