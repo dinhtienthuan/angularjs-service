@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head>
+  <title>Expressions</title>
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+</head>
+<body ng-controller="defaultCtrl">
+  <div class="well">
+    <p><input type="text" class="form-control" ng-model="expr"></p>
+    <div>
+      Result: <span eval-expression="expr"></span>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+  <script>
+    angular.module("exampleApp", [])
+      .controller("defaultCtrl", function($scope) {
+        $scope.price = "100.23";
+      })
+      .directive("evalExpression", function($parse) {
+        return function(scope, element, attrs) {
+          scope.$watch(attrs["evalExpression"], function(newValue) {
+            try {
+              var expressionFn = $parse(scope.expr);
+              var result = expressionFn(scope);
+              if (result == undefined) {
+                result = "No result";
+              }
+            } catch(err) {
+              result = "Cannot evaluate expression";
+            }
+            element.text(result);
+          });
+        };
+      });
+  </script>
+</body>
+</html>
