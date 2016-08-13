@@ -7,9 +7,9 @@
 </head>
 <body ng-controller="defaultCtrl">
   <div class="well">
-    <p><input type="text" class="form-control" ng-model="expr"></p>
+    <p><input type="text" class="form-control" ng-model="dataValue"></p>
     <div>
-      Result: <span eval-expression="expr"></span>
+      Result: <span eval-expression amount="dataValue" tax="10"></span>
     </div>
   </div>
 
@@ -17,22 +17,23 @@
   <script>
     angular.module("exampleApp", [])
       .controller("defaultCtrl", function($scope) {
-        $scope.price = "100.23";
+        $scope.dataValue = "100.23";
       })
       .directive("evalExpression", function($parse) {
-        return function(scope, element, attrs) {
-          scope.$watch(attrs["evalExpression"], function(newValue) {
-            try {
-              var expressionFn = $parse(scope.expr);
-              var result = expressionFn(scope);
-              if (result == undefined) {
-                result = "No result";
-              }
-            } catch(err) {
-              result = "Cannot evaluate expression";
-            }
-            element.text(result);
-          });
+        var expressionFn = $parse("total | currency");
+        return {
+          scope: {
+            amount: "=amount",
+            tax: "=tax"
+          },
+          link: function(scope, element, attrs) {
+            scope.$watch("amount", function(newValue) {
+              var localData = {
+                total: Number(newValue) + (Number(newValue) * (Number(scope.tax) / 100))
+              };
+              element.text(expressionFn(scope, localData));
+            });
+          }
         };
       });
   </script>
