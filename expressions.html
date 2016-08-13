@@ -7,38 +7,21 @@
 </head>
 <body ng-controller="defaultCtrl">
   <div class="well">
-    <p><input type="text" class="form-control" ng-model="dataValue"></p>
-    <div>
-      <span eval-expression amount="dataValue" tax="10"></span>
-      <p>Original amount: !!dataValue!!</p>
-    </div>
+    <span eval-expression></span>
   </div>
 
   <script type="text/javascript" src="bower_components/angular/angular.js"></script>
   <script>
     angular.module("exampleApp", [])
-      .config(function($interpolateProvider) {
-        $interpolateProvider.startSymbol("!!");
-        $interpolateProvider.endSymbol("!!");
-      })
       .controller("defaultCtrl", function($scope) {
-        $scope.dataValue = "100.23";
+        $scope.cities = ["London", "Paris", "New York"];
       })
-      .directive("evalExpression", function($interpolate) {
-        var interpolateFn = $interpolate("The total is !!amount | currency!! (including tax)");
-        return {
-          scope: {
-            amount: "=amount",
-            tax: "=tax"
-          },
-          link: function(scope, element, attrs) {
-            scope.$watch("amount", function(newValue) {
-              var localData = {
-                total: Number(newValue) + (Number(newValue) * (Number(scope.tax) / 100))
-              };
-              element.text(interpolateFn(scope));
-            });
-          }
+      .directive("evalExpression", function($compile) {
+        return function(scope, element, attrs) {
+          var content = "<ul><li ng-repeat='city in cities'>{{city}}</li></ul>";
+          var listElem = angular.element(content);
+          var compileFn = $compile(listElem);
+          element.append(compileFn(scope));
         };
       });
   </script>
