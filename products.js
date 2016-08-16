@@ -12,7 +12,12 @@ angular.module("exampleApp", [])
     };
 
     $scope.deleteProduct = function(product) {
-      $scope.products.splice($scope.products.indexOf(product), 1);
+      $http({
+        method: "DELETE",
+        url: baseUrl + product.id
+      }).success(function() {
+        $scope.products.splice($scope.products.indexOf(product), 1);
+      });
     };
 
     $scope.createProduct = function(product) {
@@ -25,7 +30,7 @@ angular.module("exampleApp", [])
         if ($scope.products[i].id == product.id) {
           $scope.products[i] = product;
           break;
-        } else {}
+        }
       }
       $scope.displayMode = "list";
     };
