@@ -20,7 +20,7 @@ angular.module("exampleApp", ["increment", "ngResource"])
     };
 
     $scope.createProduct = function(product) {
-      new $scope.productsResource(product).$save().then(function(newProduct) {
+      new $scope.productsResource(product).$create().then(function(newProduct) {
         $scope.products.push(newProduct);
         $scope.displayMode = "list";
       });
